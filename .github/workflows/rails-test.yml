@@ -56,7 +56,7 @@ jobs:
           sudo apt update
           sudo apt install build-essential
           sudo apt build-dep imagemagick
-          sudo apt install libwebp-dev libopenjp2-7-dev librsvg2-dev libde265-dev
+          sudo apt install libheif-dev libwebp-dev
     - name: install libheif
       run: |
           git clone https://github.com/strukturag/libheif.git
