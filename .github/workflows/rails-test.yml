@@ -56,7 +56,14 @@ jobs:
           sudo apt update
           sudo apt install build-essential
           sudo apt build-dep imagemagick
-          sudo apt install libheif-dev
+    - name: install libheif
+      run: |
+          git clone https://github.com/strukturag/libheif.git
+          cd libheif
+          ./autogen.sh
+          ./configure --disable-go --disable-examples
+          make
+          sudo make install
     - name: install imagemagick 7
       run: |
           wget https://github.com/ImageMagick/ImageMagick/archive/refs/tags/${IMAGEMAGICK_SRC}
