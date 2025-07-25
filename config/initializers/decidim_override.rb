@@ -51,9 +51,10 @@ Rails.application.config.to_prepare do
         def order
           params_order = params.fetch(:order, nil)
           reload_request = params.fetch(:reload, nil).present?
-
-          if reload_request && params_order.present?
-            cookies["comment_default_order"] = params_order if cookies[Decidim.config.consent_cookie_name].present?
+          if params_order
+            if reload_request && cookies[Decidim.config.consent_cookie_name].present? # rubocop:disable Style/IfUnlessModifier
+              cookies["comment_default_order"] = params_order
+            end
             params_order
           elsif cookies["comment_default_order"].present? && cookies[Decidim.config.consent_cookie_name].present?
             cookies["comment_default_order"]
@@ -73,7 +74,7 @@ Rails.application.config.to_prepare do
             resource,
             machine_translations: machine_translations_toggled?,
             single_comment: params.fetch("commentId", nil),
-            order: options[:order] || params["orderable"] || cookies["comment_default_order"],
+            order: options[:order] || cookies["comment_default_order"],
             polymorphic: options[:polymorphic]
           )
         end
